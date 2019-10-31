@@ -1,0 +1,8 @@
+namespace: 
+elasticsearchUrl: "http://elasticsearch:9200"
+redisUrl: "redis:6379"
+dbHost: 
+dbPort: "3306"
+dbUser: 
+dbPass: 
+dbName: 

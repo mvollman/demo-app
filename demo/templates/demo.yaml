@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      run: demo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: demo
+    spec:
+      containers:
+      - name: demo
+        image: 932532311803.dkr.ecr.us-east-1.amazonaws.com/vollman-demo:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ELASTICSEARCH_URL
+          value: "{{ .Values.elasticsearchUrl }}"
+        - name: REDIS_URL
+          value: "{{ .Values.redisUrl }}"
+        - name: DB_HOST
+          value: "{{ .Values.dbHost }}"
+        - name: DB_PORT
+          value: "{{ .Values.dbPort }}"
+        - name: DB_USER
+          value: "{{ .Values.dbUser }}"
+        - name: DB_PASS
+          value: "{{ .Values.dbPass }}"
+        - name: DB_NAME
+          value: "{{ .Values.dbName }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+  namespace: {{ .Values.namespace }}
+  labels:
+    run: demo
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    run: demo
+
